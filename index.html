@@ -44,10 +44,18 @@
 </script>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/sora-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="img/videopodcast-kuvauspaiva-tampere-800.webp" imagesrcset="img/videopodcast-kuvauspaiva-tampere-800.webp 800w, img/videopodcast-kuvauspaiva-tampere-1280.webp 1280w, img/videopodcast-kuvauspaiva-tampere-1920.webp 1920w" imagesizes="100vw" fetchpriority="high">
 <style>
+  @font-face{font-family:Sora;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/sora-latin-400-normal.woff2) format('woff2')}
+  @font-face{font-family:Sora;font-style:normal;font-weight:500;font-display:swap;src:url(fonts/sora-latin-500-normal.woff2) format('woff2')}
+  @font-face{font-family:Sora;font-style:normal;font-weight:600;font-display:swap;src:url(fonts/sora-latin-600-normal.woff2) format('woff2')}
+  @font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format('woff2')}
+  @font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format('woff2')}
+  @font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format('woff2')}
+  @font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin-400-italic.woff2) format('woff2')}
+  
   :root{
     --navy:#052125; --navy-deep:#021417; --navy-2:#0a2c31;
     --gold:#fcb225; --paper:#F5F3EE; --white:#fff;
@@ -70,7 +78,7 @@
   .pill{display:inline-block;font-family:Sora,sans-serif;font-size:.74rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:.55em 1.2em;margin-bottom:28px}
   .pill b{color:var(--gold);font-weight:500;margin-right:.6em;letter-spacing:0}
   .light .pill{border-color:rgba(5,33,37,.25);color:var(--navy)}
-  .light .pill b{color:#b7800f}
+  .light .pill b{color:#8a5f00}
   section{padding:104px 0}
   .dark{background:var(--navy)}
   .light{background:var(--paper);color:var(--navy)}
@@ -98,7 +106,10 @@
   .head-call:hover{opacity:1;color:var(--gold)}
 
   /* Hero */
-  .hero{position:relative;min-height:92vh;display:flex;align-items:flex-end;padding:150px 0 96px;background:var(--navy) url(img/videopodcast-kuvauspaiva-tampere.jpg) center 62%/cover no-repeat}
+  .hero{position:relative;min-height:92vh;display:flex;align-items:flex-end;padding:150px 0 96px;background:var(--navy)}
+  .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 62%;z-index:0}
+  .hero::before{z-index:1}
+  .hero .wrap{z-index:2}
   .hero::before{content:"";position:absolute;inset:0;background:
      linear-gradient(90deg,rgba(5,33,37,.94) 0%,rgba(5,33,37,.80) 42%,rgba(5,33,37,.35) 100%),
      linear-gradient(0deg,rgba(5,33,37,.75) 0%,rgba(5,33,37,0) 45%)}
@@ -118,7 +129,7 @@
   .problem .ptext{margin-top:28px}
   .wave-card{background:var(--navy);border:1px solid var(--navy);border-radius:20px;padding:40px 32px 28px}
   .wave{width:100%;height:auto;display:block}
-  .wave-labels{display:flex;justify-content:space-between;gap:16px;margin-top:18px;font-family:Sora,sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+  .wave-labels{display:flex;justify-content:space-between;gap:16px;margin-top:18px;font-family:Sora,sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.62)}
   .wave-labels span{white-space:nowrap}
   .wave-labels span:last-child{color:var(--gold);text-align:right}
   .problem p{font-size:1.12rem}
@@ -139,6 +150,11 @@
   /* Video */
   .video-box{margin-top:48px;border-radius:20px;overflow:hidden;aspect-ratio:16/9;background:#000;border:1px solid var(--line-dark)}
   .video-box iframe{width:100%;height:100%;border:0;display:block}
+  .yt{position:relative;display:block;width:100%;height:100%;padding:0;border:0;background:#000;cursor:pointer}
+  .yt img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .2s}
+  .yt:hover img,.yt:focus-visible img{opacity:1}
+  .yt-play{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:var(--gold)}
+  .yt-play::after{content:"";position:absolute;left:31px;top:24px;border-style:solid;border-width:14px 0 14px 22px;border-color:transparent transparent transparent var(--navy)}
   .caption{margin-top:20px;color:var(--text-dark);font-size:1rem;max-width:720px}
 
   /* About */
@@ -149,7 +165,7 @@
   .about .text{padding:88px 64px;display:flex;flex-direction:column;justify-content:center}
   .about .pill{align-self:flex-start}
   .about h2{margin-bottom:8px}
-  .role{font-family:Sora,sans-serif;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:#b7800f;margin-bottom:32px}
+  .role{font-family:Sora,sans-serif;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:#8a5f00;margin-bottom:32px}
   .about p{font-size:1.08rem}
   .hello{font-family:Sora,sans-serif;font-size:1.25rem;color:var(--navy)!important}
 
@@ -157,8 +173,8 @@
   .final{text-align:left}
   .final-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center}
   .wave-card.silent{background:var(--paper);border-color:var(--paper)}
-  .wave-card.silent .wave-labels{color:rgba(5,33,37,.45)}
-  .wave-card.silent .wave-labels span:last-child{color:#b7800f}
+  .wave-card.silent .wave-labels{color:rgba(5,33,37,.66)}
+  .wave-card.silent .wave-labels span:last-child{color:#8a5f00}
   .rec{animation:rec 1.6s ease-in-out infinite}
   @keyframes rec{0%,100%{opacity:1}50%{opacity:.25}}
   .final h2{max-width:760px}
@@ -167,7 +183,7 @@
   .contact-line a{text-decoration:none;border-bottom:1px solid rgba(252,178,37,.5)}
   .contact-line a:hover{color:var(--gold)}
 
-  footer{background:var(--navy-deep);color:rgba(255,255,255,.45);font-size:.85rem;padding-bottom:110px}
+  footer{background:var(--navy-deep);color:rgba(255,255,255,.62);font-size:.85rem;padding-bottom:110px}
   .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:32px}
   .foot-brand{display:flex;align-items:center;gap:10px}
   .foot a{text-decoration:none}
@@ -187,7 +203,8 @@
     .about .text{padding:64px 24px}
     .about .photo{min-height:440px}
     .price{grid-template-columns:1fr;gap:10px;padding:28px}
-    .hero{min-height:88vh;padding:130px 0 72px;background-position:62% center}
+    .hero{min-height:88vh;padding:130px 0 72px;}
+    .hero-bg{object-position:62% center}
     .hero::before{background:linear-gradient(0deg,rgba(5,33,37,.96) 0%,rgba(5,33,37,.82) 55%,rgba(5,33,37,.55) 100%)}
     .head-call{display:none}
     .wave-card{padding:28px 22px 22px}
@@ -207,8 +224,10 @@
   </div>
 </header>
 
+<main>
 <!-- HERO -->
 <section class="hero" id="top">
+  <img class="hero-bg" src="img/videopodcast-kuvauspaiva-tampere-1280.webp" srcset="img/videopodcast-kuvauspaiva-tampere-800.webp 800w, img/videopodcast-kuvauspaiva-tampere-1280.webp 1280w, img/videopodcast-kuvauspaiva-tampere-1920.webp 1920w" sizes="100vw" alt="Videopodcastin kuvauspäivä: kamerat ja valot valmiina" fetchpriority="high" width="1920" height="1080">
   <div class="wrap">
     <span class="pill"><b>//</b>Videopodcastit · Pirkanmaa</span>
     <h1>Asiantuntijuus näkyväksi, <span class="serif">ilman sirkusta.</span></h1>
@@ -292,7 +311,10 @@
     <span class="pill"><b>//</b>Työnäyte</span>
     <h2>Tältä valmis jakso <span class="serif">näyttää.</span></h2>
     <div class="video-box">
-      <iframe src="https://www.youtube-nocookie.com/embed/a_OWzIWciN0?rel=0" title="Vuoden Työnantaja -podcast" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <button class="yt" type="button" data-id="a_OWzIWciN0" aria-label="Toista video: Vuoden Työnantaja -podcast">
+        <img src="https://i.ytimg.com/vi/a_OWzIWciN0/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+        <span class="yt-play" aria-hidden="true"></span>
+      </button>
     </div>
     <p class="caption">Vuoden Työnantaja -podcast on Tammerkosken nuorkauppakamarin hallinnoima podi, jota olen ilokseni päässyt vetämään nyt toista vuotta.</p>
   </div>
@@ -301,7 +323,7 @@
 <!-- ABOUT -->
 <section class="light about">
   <div class="grid">
-    <div class="photo"><img src="img/saku-pihlman-dromeco-productions.jpg" alt="Saku Pihlman, Dromeco Productionsin videopodcast-tuottaja Tampereelta" loading="lazy"></div>
+    <div class="photo"><img src="img/saku-pihlman-dromeco-productions.webp" width="900" height="850" alt="Saku Pihlman, Dromeco Productionsin videopodcast-tuottaja Tampereelta" loading="lazy"></div>
     <div class="text">
       <span class="pill"><b>//</b>Kuka näitä tekee</span>
       <h2>Saku Pihlman</h2>
@@ -335,6 +357,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="wrap foot">
     <span>© Dromeco Oy · Y-tunnus 3178944-6 · Tampere</span>
@@ -342,7 +366,7 @@
   </div>
 </footer>
 
-<div class="callbar" id="callbar" aria-hidden="true">
+<div class="callbar" id="callbar" aria-hidden="true" inert>
   <div class="who">Soita Sakulle<b>050 440 4690</b></div>
   <a class="btn btn-gold" href="tel:+358504404690">Soita →</a>
 </div>
@@ -356,10 +380,22 @@
       var on=past && !atEnd;
       bar.classList.toggle('show',on);
       bar.setAttribute('aria-hidden',on?'false':'true');
+      if(on) bar.removeAttribute('inert'); else bar.setAttribute('inert','');
     }
     window.addEventListener('scroll',update,{passive:true});
     window.addEventListener('resize',update);
     update();
+  })();
+  (function(){
+    var b=document.querySelector('.yt'); if(!b) return;
+    b.addEventListener('click',function(){
+      var f=document.createElement('iframe');
+      f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.id+'?rel=0&autoplay=1';
+      f.title='Vuoden Työnantaja -podcast';
+      f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      f.allowFullscreen=true;
+      b.replaceWith(f);
+    });
   })();
 </script>
 </body>
